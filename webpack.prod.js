@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  //environment
+  //env
   mode: "production",
   // entry point for webpack as the default
   // does not suit us
