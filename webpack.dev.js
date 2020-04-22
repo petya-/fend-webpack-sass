@@ -41,7 +41,6 @@ module.exports = {
       cleanStaleWebpackAssets: true,
       protectWebpackAssets: false,
     }),
-    // analyzes packages
     // new BundleAnalyzerPlugin(),
   ],
 };
