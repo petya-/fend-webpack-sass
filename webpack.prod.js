@@ -1,6 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 module.exports = {
   //env
@@ -8,7 +12,10 @@ module.exports = {
   // entry point for webpack as the default
   // does not suit us
   entry: "./src/client/index.js",
-  output: {},
+  // allow to use minimizing actions on certain files
+  optimization: {
+    minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
   module: {
     rules: [
       {
@@ -20,7 +27,7 @@ module.exports = {
         test: /\.scss$/,
         // chainable orders, one loader uses the output of another
         // NB: chained loaders run in order from right to left
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
@@ -29,5 +36,11 @@ module.exports = {
       template: "./src/client/views/index.html",
       filename: "index.html",
     }),
+    // instead of going into main.js, split our css in its own main.css
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+    }),
+    //service workers
+    new WorkboxPlugin.GenerateSW(),
   ],
 };

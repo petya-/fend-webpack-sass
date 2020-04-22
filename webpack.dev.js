@@ -10,7 +10,15 @@ module.exports = {
   // entry point for webpack as the default
   // does not suit us
   entry: "./src/client/index.js",
-  output: {},
+  devtool: "source-map",
+  devServer: {
+    // Update port to 3000 for classroom
+    port: 3000,
+  },
+  output: {
+    libraryTarget: "var",
+    library: "Client",
+  },
   module: {
     rules: [
       {
